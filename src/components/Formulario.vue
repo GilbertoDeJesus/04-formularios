@@ -91,11 +91,6 @@ export default {
             </div>
         </div>
     </div>
-    <pre>
-        {{proyecto}}
-        {{tipo}}
-        {{urgente}}
-    </pre>
 </template>
 
 <style scoped>
