@@ -5,7 +5,6 @@ export default {
         tipo: "",
         urgente: false,
         proyectos: [],
-        numeroProyectos: 0,
     }),
     methods: {
         cambiarUrgencia(proyecto, campo) {
@@ -31,6 +30,17 @@ export default {
     computed: {
         numeroProyectos() {
             return this.proyectos.length;
+        },
+        porcentaje(){
+            var completados = 0;
+            this.proyectos.map(proyecto => {
+                if(proyecto.completado) completados++;
+            });
+
+            var value = (completados * 100) / this.numeroProyectos;
+
+            return isNaN(value) ? 0 : parseInt(value);
+            
         }
     }
 };
@@ -38,6 +48,14 @@ export default {
 
 <template>
     <div class="row">
+        <div class="col-12">
+            <h3 class="text-center">
+                Progreso {{porcentaje}}%
+            </h3>
+            <div class="progress my-4">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" :style="{width: porcentaje+'%'}" v-bind:aria-valuenow="porcentaje" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </div>
         <div class="col-12 col-md-4">
             <form @submit.prevent="regsitrarProyecto" class="mt-4">
                 <div class="mb-3">
