@@ -21,6 +21,7 @@ export default {
                 completado: false,
             };
             this.proyectos.push(proyecto);
+            localStorage.setItem("proyectos", JSON.stringify(this.proyectos));
             console.warn("Proyecto regsitrado\n", this.proyectos);
             this.proyecto = "";
             this.tipo = "";
@@ -40,7 +41,10 @@ export default {
             return isNaN((completados * 100) / this.numeroProyectos) ? 0 : parseInt((completados * 100) / this.numeroProyectos);
         }
     },
-    components: { ProgressBar, TotalProyectos }
+    components: { ProgressBar, TotalProyectos },
+    mounted() {
+        this.proyectos = JSON.parse(localStorage.getItem("proyectos")) || [];
+    }
 };
 </script>
 
