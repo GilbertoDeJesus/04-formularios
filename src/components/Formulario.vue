@@ -12,6 +12,7 @@ export default {
         cambiarUrgencia(proyecto, campo) {
             console.log(proyecto, campo);
             proyecto[campo] = !proyecto[campo];
+            this.saveData();
         },
         regsitrarProyecto() {
             const proyecto = {
@@ -21,11 +22,24 @@ export default {
                 completado: false,
             };
             this.proyectos.push(proyecto);
-            localStorage.setItem("proyectos", JSON.stringify(this.proyectos));
+            this.saveData();
             console.warn("Proyecto regsitrado\n", this.proyectos);
             this.proyecto = "";
             this.tipo = "";
             this.urgente = false;
+        },
+        deleteItem(index){
+            this.proyectos[index]="";
+            this.proyectos.splice(index, 1);
+            localStorage.clear(this.proyectos.index);
+            this.saveData();
+        },
+        saveData(){
+            localStorage.setItem("proyectos", JSON.stringify(this.proyectos));
+        },
+        limpiarData(){
+            localStorage.clear();
+            this.proyectos = [];
         },
     },
     computed: {
@@ -78,7 +92,7 @@ export default {
         </div>
         
         <div class="col-12 col-md-8">
-            <total-proyectos :numeroProyectos="numeroProyectos" :proyectos="proyectos" :cambiarUrgencia="cambiarUrgencia" />
+            <total-proyectos :numeroProyectos="numeroProyectos" :proyectos="proyectos" :cambiarUrgencia="cambiarUrgencia" :limpiarData="limpiarData" :deleteItem="deleteItem" />
         </div>
     </div>
 </template>
